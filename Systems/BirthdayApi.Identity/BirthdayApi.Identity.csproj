@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Configuration\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Duende.IdentityServer" Version="6.1.0" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.0" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\BirthdayApi.Context\BirthdayApi.Context.csproj" />
+    <ProjectReference Include="..\..\Data\BirthdayApi.Domain\BirthdayApi.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\BirthdayApi.Settings\BirthdayApi.Settings.csproj" />
+    <ProjectReference Include="..\..\Shared\BirthdayApi.Common\BirthdayApi.Common.csproj" />
+    <ProjectReference Include="..\BirthdayApi.Api\BirthdayApi.Api.csproj" />
+  </ItemGroup>
+
+</Project>

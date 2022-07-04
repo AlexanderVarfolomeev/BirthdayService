@@ -1,0 +1,55 @@
+﻿@inherits MudComponentBase
+
+@inject IBirthdaysService birthdaysService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudDatePicker Label="First day" @bind-Text="start" FixYear="@DateTime.Now.Year"/>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudDatePicker Label="Last day" @bind-Text="end" FixYear="@DateTime.Now.Year"/>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+   // [Parameter]
+    public string start { get; set; } = "";
+
+    //[Parameter]
+    public string end { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            var dateFirst = start.Split(".")[0] + "." + start.Split(".")[1];
+            var dateSecond = end.Split(".")[0] + "." + end.Split(".")[1];
+            start = dateFirst;
+            end = dateSecond;
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

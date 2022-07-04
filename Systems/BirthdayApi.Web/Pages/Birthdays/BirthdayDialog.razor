@@ -1,0 +1,82 @@
+﻿@inherits MudComponentBase
+
+@inject IBirthdaysService birthdaysService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Name" @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Required="true"
+                                  RequiredError="Name is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudDatePicker Label="Birthday" @bind-Text="model.BirthdayDate" FixYear="@DateTime.Now.Year"/>
+                </MudItem>
+                <MudItem xs="12" >
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.Description)"
+                                  Required = "false"
+                                  @bind-Value="model.Description"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? BirthdayId { get; set; }
+
+    [Parameter]
+    public BirthdayModel model { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        isNew = BirthdayId == null;
+        if (!isNew)
+        {
+            var birthday = await birthdaysService.GetBirthday(BirthdayId ?? 0);
+
+            model.Id = birthday.Id;
+            model.Name = birthday.Name;
+            model.Description = birthday.Description;
+            model.BirthdayDate = birthday.BirthdayDate;
+
+            var arr = birthday.BirthdayDate.Split('.');
+            model.BirthdayDate = arr[0].Length == 1 ? "0" + arr[0] + "." : arr[0] + ".";
+            model.BirthdayDate += arr[1].Length == 1 ? "0" + arr[1] : arr[1];
+            model.BirthdayDate += ".2022";
+        }
+
+    }
+
+    async Task Submit()
+    {
+            
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

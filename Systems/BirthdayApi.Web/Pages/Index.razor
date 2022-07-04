@@ -1,0 +1,124 @@
+﻿@page "/"
+@using BirthdayApi.Web
+
+@layout MainLayout
+
+@attribute [Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IBirthdaysService birthdayService
+
+@using BirthdayApi.Web.Components
+@using BirthdayApi.Web.Pages.Birthdays
+
+<MudTable Items="@Elements.Take(100)" Hover="true" Breakpoint="Breakpoint.Sm">
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined" OnClick="AddBirthday">Add</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.Today" Variant="Variant.Outlined" OnClick="GetToday">Get today</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.CalendarMonth" Variant="Variant.Outlined" OnClick="ReloadData">All birthday</MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.CalendarMonth" Variant="Variant.Outlined" OnClick="GetForPeriod">Birthdays for period</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Birthday</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Birthday">@context.BirthdayDate</MudTd>
+        <MudTd>
+            <MudButton Variant="Variant.Outlined" OnClick="() => EditBirthday(context.Id)">Edit</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="() => DeleteBirthday(context.Id)">Delete</MudButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+
+@code {
+    private IEnumerable<BirthdayModel> Elements = new List<BirthdayModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private async Task ReloadData()
+    {
+        Elements = await birthdayService.GetBirthdays();
+    }
+
+    private async Task GetToday()
+    {
+        Elements = await birthdayService.GetBirthdaysToday();
+    }
+
+    private async Task GetForPeriod()
+    {
+        var parameters = new DialogParameters();
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<PeriodDialog>("Select period", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            Elements = await birthdayService.GetBirthdaysForPeriod(((PeriodDialog) dialog.Dialog).start, ((PeriodDialog) dialog.Dialog).end);
+        }
+    }
+
+    private async Task EditBirthday(int BirthdayId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("BirthdayId", BirthdayId);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<BirthdayDialog>("Edit birthday", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await birthdayService.EditBirthday(BirthdayId, ((BirthdayDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task AddBirthday()
+    {
+        var parameters = new DialogParameters();
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<BirthdayDialog>("Add birthday", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await birthdayService.AddBirthday(((BirthdayDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task DeleteBirthday(int id)
+    {
+        var parameters = new DialogParameters();
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<Dialog>("Delete birthday", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await birthdayService.DeleteBirthday(id);
+            await ReloadData();
+        }
+    }
+
+}

@@ -1,0 +1,24 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BirthdayApi.Context
+{
+    public static class DbSeed
+    { 
+        public static void Execute(IServiceProvider serviceProvider)
+        {
+            using var scope = serviceProvider.GetService<IServiceScopeFactory>().CreateScope();
+            ArgumentNullException.ThrowIfNull(scope);
+
+            var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>();
+            using var context = factory.CreateDbContext();
+
+            //Добавление данных
+        }
+    }
+}

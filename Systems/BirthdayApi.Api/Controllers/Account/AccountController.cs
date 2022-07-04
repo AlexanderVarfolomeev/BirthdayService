@@ -26,13 +26,5 @@ namespace BirthdayApi.Api.Controllers.Account
             await accountService.RegisterAccount(user);
         }
 
-
-        [HttpPost("Login")]
-        public async Task<bool> Login([FromBody] Models.Account model)
-        {
-            var user = mapper.Map<AccountModel>(model);
-            return await accountService.Login(user);
-        }
-
     }
 }

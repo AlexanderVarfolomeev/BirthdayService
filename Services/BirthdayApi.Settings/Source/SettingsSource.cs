@@ -9,9 +9,9 @@ namespace BirthdayApi.Settings
 {
     public class SettingsSource : ISettingsSource
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration? configuration;
 
-        public SettingsSource(IConfiguration conf = null)
+        public SettingsSource(IConfiguration? conf = null)
         {
 
             configuration =conf ?? new ConfigurationBuilder()

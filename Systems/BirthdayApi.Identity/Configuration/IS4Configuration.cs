@@ -29,8 +29,8 @@ public static class IS4Configuration
             .AddInMemoryClients(AppClients.Clients)
             .AddInMemoryApiResources(AppResources.Resources)
             .AddInMemoryIdentityResources(AppIdentityResources.Resources)
-
-            .AddTestUsers(AppApiTestUsers.ApiUsers)
+            
+           // .AddTestUsers(AppApiTestUsers.ApiUsers)
 
             .AddDeveloperSigningCredential();
 

@@ -1,4 +1,7 @@
-﻿using BirthdayApi.AccountService.Models;
+﻿using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using BirthdayApi.AccountService.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace BirthdayApi.AccountService;
@@ -34,12 +37,15 @@ public class AccountService : IAccountService
         //добавить исключение и тд
     }
 
-    public async Task<bool> Login(AccountModel model)
-    {
-        var user = await userManager.FindByEmailAsync(model.Email);
-        if (user == null)
-            throw new NotImplementedException();
-        var result = await sgInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-        return result.Succeeded;
-    }
+    //public async Task<bool> Login(AccountModel model)
+    //{
+    //    var user = await userManager.FindByEmailAsync(model.Email);
+    //    if (user == null)
+    //        throw new NotImplementedException();
+    //    var result = await sgInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+    //    return result.Succeeded;
+
+    //}
+
 }
+

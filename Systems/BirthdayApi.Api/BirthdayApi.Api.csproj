@@ -45,6 +45,8 @@
     <ProjectReference Include="..\..\Data\BirthdayApi.Context\BirthdayApi.Context.csproj" />
     <ProjectReference Include="..\..\Services\BirthdayApi.AccountService\BirthdayApi.AccountService.csproj" />
     <ProjectReference Include="..\..\Services\BirthdayApi.BirthdayService\BirthdayApi.BirthdayService.csproj" />
+    <ProjectReference Include="..\..\Services\BirthdayApi.EmailService\BirthdayApi.EmailService.csproj" />
+    <ProjectReference Include="..\..\Services\BirthdayApi.RabbitMqService\BirthdayApi.RabbitMqService.csproj" />
     <ProjectReference Include="..\..\Services\BirthdayApi.Settings\BirthdayApi.Settings.csproj" />
     <ProjectReference Include="..\..\Shared\BirthdayApi.Common\BirthdayApi.Common.csproj" />
   </ItemGroup>

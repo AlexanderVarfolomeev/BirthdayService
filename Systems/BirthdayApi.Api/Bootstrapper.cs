@@ -1,6 +1,9 @@
 ﻿using BirthdayApi.BirthdayService;
 using BirthdayApi.Settings;
 using BirthdayApi.AccountService;
+using BirthdayApi.EmailService;
+using BirthdayApi.RabbitMQService;
+
 namespace BirthdayApi
 {
     public static class Bootstrapper
@@ -10,7 +13,9 @@ namespace BirthdayApi
             services
                 .AddSettings()
                 .AddBirthdayService()
-                .AddAccountService();
+                .AddAccountService()
+                .AddEmailSender()
+                .AddRabbitMq();
             return services;
         }
     }

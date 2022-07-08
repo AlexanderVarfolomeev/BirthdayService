@@ -15,6 +15,7 @@
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
     <None Include="env.api" />
+    <None Include="env.emailsender" />
     <None Include="env.identity" />
   </ItemGroup>
 </Project>

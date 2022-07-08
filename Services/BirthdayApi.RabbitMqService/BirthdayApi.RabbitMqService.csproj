@@ -7,15 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\BirthdayApi.Context\BirthdayApi.Context.csproj" />
-    <ProjectReference Include="..\..\Data\BirthdayApi.Domain\BirthdayApi.Domain.csproj" />
-    <ProjectReference Include="..\..\Shared\BirthdayApi.Common\BirthdayApi.Common.csproj" />
-    <ProjectReference Include="..\BirthdayApi.RabbitMqService\BirthdayApi.RabbitMqService.csproj" />
-    <ProjectReference Include="..\BirthdayApi.Settings\BirthdayApi.Settings.csproj" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\..\Data\BirthdayApi.Context\BirthdayApi.Context.csproj" />
+    <ProjectReference Include="..\..\Data\BirthdayApi.Domain\BirthdayApi.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\BirthdayApi.Common\BirthdayApi.Common.csproj" />
+    <ProjectReference Include="..\BirthdayApi.Settings\BirthdayApi.Settings.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,6 +18,11 @@ namespace BirthdayApi.Settings
             services.AddSingleton<IApiSettings, ApiSettings>();
             services.AddSingleton<IDbSettings, DbSettings>();
             services.AddSingleton<IGeneralSettings, GeneralSettings>();
+            services.AddSingleton<IWorkerSettings, WorkerSettings>();
+            services.AddSingleton<IRabbitMqSettings, RabbitMqSettings>();
+            services.AddSingleton<IEmailSettings, EmailSettings>();
+            services.AddSingleton<IIdentitySettings, IdentitySettings>();
+
             return services;
         }
     }

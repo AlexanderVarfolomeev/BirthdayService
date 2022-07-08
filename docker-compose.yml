@@ -4,7 +4,11 @@ services:
   birthdayapi_sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
 
+  birthdayapi_redis:
+    image: redis
 
+  birthdayapi_rabbitmq:
+    image: rabbitmq:3-management
 
   birthdayapi_api:
     image: ${DOCKER_REGISTRY-}birthdayapi
@@ -14,6 +18,11 @@ services:
     depends_on:
       - birthdayapi_sqlserver
       
+  birthdayapi_emailsender:
+    image: ${DOCKER_REGISTRY-}birthdayapiemailsender
+    build:
+      context: .
+      dockerfile: Systems/BirthdayApi.EmailSender/Dockerfile
 
   birthdayapi_identity:
     image: ${DOCKER_REGISTRY-}birthdayapiis
@@ -31,5 +40,3 @@ services:
       dockerfile: Systems/BirthdayApi.Web/Dockerfile
     depends_on:
       - birthdayapi_sqlserver
-
-

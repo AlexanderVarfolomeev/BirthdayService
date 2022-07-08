@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  birthdayapi_sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+
+
+  birthdayapi_api:
+    image: ${DOCKER_REGISTRY-}birthdayapi
+    build:
+      context: .
+      dockerfile: Systems/BirthdayApi.Api/Dockerfile
+    depends_on:
+      - birthdayapi_sqlserver
+      
+
+  birthdayapi_identity:
+    image: ${DOCKER_REGISTRY-}birthdayapiis
+    build:
+      context: .
+      dockerfile: Systems/BirthdayApi.Identity/Dockerfile
+    depends_on:
+      - birthdayapi_sqlserver
+
+
+  birthdayapi_web:
+    image: ${DOCKER_REGISTRY-}birthdayapiweb
+    build:
+      context: .
+      dockerfile: Systems/BirthdayApi.Web/Dockerfile
+    depends_on:
+      - birthdayapi_sqlserver
+
+

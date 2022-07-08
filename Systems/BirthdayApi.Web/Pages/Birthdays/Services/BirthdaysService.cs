@@ -14,7 +14,6 @@ namespace BirthdayApi.Web
 
         public async Task<IEnumerable<BirthdayModel>> GetBirthdays()
         {
-            /* http://localhost:5118/api/Birthday */
             string url = $"{Settings.ApiRoot}/Birthday";
 
             var response = await client.GetAsync(url);

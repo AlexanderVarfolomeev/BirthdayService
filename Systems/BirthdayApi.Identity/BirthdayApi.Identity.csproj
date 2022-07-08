@@ -4,10 +4,18 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Compile Remove="Controllers\**" />
+    <Content Remove="Controllers\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <None Remove="Controllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Configuration\" />
   </ItemGroup>
 
@@ -16,6 +24,7 @@
     <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +32,6 @@
     <ProjectReference Include="..\..\Data\BirthdayApi.Domain\BirthdayApi.Domain.csproj" />
     <ProjectReference Include="..\..\Services\BirthdayApi.Settings\BirthdayApi.Settings.csproj" />
     <ProjectReference Include="..\..\Shared\BirthdayApi.Common\BirthdayApi.Common.csproj" />
-    <ProjectReference Include="..\BirthdayApi.Api\BirthdayApi.Api.csproj" />
   </ItemGroup>
 
 </Project>

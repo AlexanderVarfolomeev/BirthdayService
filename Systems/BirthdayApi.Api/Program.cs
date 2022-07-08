@@ -1,21 +1,21 @@
+using System.Net;
 using BirthdayApi;
 using BirthdayApi.Api.Configuration;
 using BirthdayApi.Common;
 using BirthdayApi.Settings;
+using Microsoft.IdentityModel.Logging;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var settings = new ApiSettings(new SettingsSource());
-
-// Чтение конфигурации для серилога
+// Чтение конфигурации для серилогаы
 builder.Host.UseSerilog((host, cfg) => {
     cfg.ReadFrom.Configuration(host.Configuration);
 });
 
 // Add services to the container.
 services.AddHttpContextAccessor();
-
 services.AddAppDbContext(settings);
 
 services.AddAppHealthCheck();

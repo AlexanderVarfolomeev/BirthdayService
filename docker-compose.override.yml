@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  birthdayapi_sqlserver:
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Passw0rd
+      - MSSQL_PID=Express
+    ports:
+      - "21433:1433"
+    networks:
+      - shared-birthdayapi-net
+    volumes:      
+      - sqlserver-data:/var/opt/mssql
+
+  birthdayapi_api:
+    ports:
+      - "5118:80"
+    networks:
+      - shared-birthdayapi-net
+    env_file:
+      - env.api  
+
+  birthdayapi_identity:
+    ports:
+      - "5196:80"
+    networks:
+      - shared-birthdayapi-net
+    env_file:
+      - env.identity
+
+  birthdayapi_web:
+    ports:
+      - "5064:80"
+    networks:
+      - shared-birthdayapi-net
+
+ 
+
+volumes:
+  sqlserver-data:
+
+
+networks:
+  shared-birthdayapi-net:
+    name: BirthdayService
+    driver: bridge
+
+

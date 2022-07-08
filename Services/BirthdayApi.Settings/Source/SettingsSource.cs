@@ -14,10 +14,24 @@ namespace BirthdayApi.Settings
         public SettingsSource(IConfiguration? conf = null)
         {
 
-            configuration =conf ?? new ConfigurationBuilder()
+            if (conf != null)
+            {
+                configuration = conf;
+                return;
+            }
+
+            var builder = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))
-                .AddJsonFile("appsettings.json", optional: false)
-                .AddJsonFile("appsettings.development.json", optional: true)
+                .AddJsonFile("appsettings.json", optional: false);
+
+            var aspNetCoreEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
+            bool idDev = aspNetCoreEnv.ToLower().Equals("development");
+
+            if (idDev)
+                builder.AddJsonFile("appsettings.development.json", optional: true);
+
+            configuration = builder
+                .AddEnvironmentVariables()
                 .Build();
         }
 

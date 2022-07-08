@@ -57,7 +57,8 @@ public class AuthService : IAuthService
         ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Email!);
 
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.AccessToken);
-
+        var result = await _httpClient.GetAsync("http://localhost:5196/connect/userinfo");
+        var str = JsonSerializer.Serialize(result).ToString();
         return loginResult;
     }
 

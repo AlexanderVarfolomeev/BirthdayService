@@ -12,7 +12,7 @@ namespace BirthdayApi.Context
     {
         public static void Execute(IServiceProvider service)
         {
-            using var scope = service.GetService<IServiceScopeFactory>().CreateScope();
+            using var scope = service.GetService<IServiceScopeFactory>()?.CreateScope();
             ArgumentNullException.ThrowIfNull(scope);
 
             var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>();

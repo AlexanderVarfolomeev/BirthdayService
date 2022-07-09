@@ -106,15 +106,23 @@ namespace BirthdayApi.BirthdayService
             var result = new List<Birthday>();
             foreach (var item in birthdays)
             {
-                if ((item.Time.Month == firstDate.Month && item.Time.Day >= firstDate.Day)
-                    || (item.Time.Month == secondDate.Month && item.Time.Day <= secondDate.Day))
+                var month = item.Time.Month;
+                var day = item.Time.Day;
+                if (month == firstDate.Month)
+                {
+                    if (day >= firstDate.Day)
+                        result.Add(item);
+                }
+                else if (month == secondDate.Month)
+                {
+                    if(day <= secondDate.Day)
+                        result.Add(item);
+                }
+                else if(month > firstDate.Month && month < secondDate.Month)
                     result.Add(item);
             }
-            birthdays = birthdays.Where(x => x.Time.Month > firstDate.Month && x.Time.Month < secondDate.Month);
-            foreach (var item in birthdays)
-            {
-                result.Add(item);
-            }
+
+
             var data = result.Select(x => mapper.Map<BirthdayModel>(x));
 
 
